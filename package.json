@@ -1,6 +1,6 @@
 {
   "name": "@inso_web/els-react",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "description": "React‑обёртка для Error Logs Service (ELS): Provider, hooks, ErrorBoundary и HOC для автоматического репорта ошибок компонентов.",
   "homepage": "https://api.insoweb.ru/els",
   "author": "INSOWEB",
@@ -45,7 +45,7 @@
     "react": ">=17.0.0"
   },
   "dependencies": {
-    "@inso_web/els-client": "^0.4.2"
+    "@inso_web/els-client": "^0.5.0"
   },
   "devDependencies": {
     "@testing-library/react": "^14.1.2",

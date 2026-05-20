@@ -7,7 +7,6 @@ import { useErrorReporter } from "../src/useErrorReporter.js";
 import { ELSErrorBoundary } from "../src/ELSErrorBoundary.js";
 
 const config = {
-  endpoint: "https://example.test",
   apiKey: "test-key",
   appSlug: "test-app",
 } as const;

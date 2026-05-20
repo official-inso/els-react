@@ -2,26 +2,42 @@ import * as React from "react";
 import { ELSClient, ELSQueue } from "@inso_web/els-client";
 import type { ELSConfig } from "@inso_web/els-client";
 
+/** Value provided by {@link ELSProvider} and read via {@link useELS}. */
 export interface ELSContextValue {
+  /** The shared ELS client. */
   client: ELSClient;
+  /** The batching queue, or `null` when `useQueue` is disabled. */
   queue: ELSQueue | null;
 }
 
+/** React context holding the ELS client/queue. Prefer the {@link useELS} hook. */
 export const ELSContext = React.createContext<ELSContextValue | null>(null);
 
+/** Props for {@link ELSProvider}. */
 export interface ELSProviderProps {
+  /** ELS client configuration (only `apiKey` + `appSlug` are required). */
   config: ELSConfig;
-  /** Включить очередь с батчингом. По умолчанию true. */
+  /** Use a batching queue. Default: `true`. */
   useQueue?: boolean;
-  /** Интервал авто‑флаша очереди в мс. */
+  /** Queue auto-flush interval, in ms. */
   flushIntervalMs?: number;
-  /** Максимальный размер батча. */
+  /** Max entries buffered before an early flush. */
   maxBatchSize?: number;
-  /** Авто‑подписка на window.onerror и unhandledrejection. По умолчанию true. */
+  /** Auto-subscribe to `window.onerror` and `unhandledrejection`. Default: `true`. */
   captureGlobalErrors?: boolean;
   children?: React.ReactNode;
 }
 
+/**
+ * Provides a single ELS client (and optional queue) to the React tree and, by
+ * default, captures uncaught errors and unhandled promise rejections. Wrap your
+ * app once near the root.
+ *
+ * @example
+ * <ELSProvider config={{ apiKey: "els_live_…", appSlug: "web" }}>
+ *   <App />
+ * </ELSProvider>
+ */
 export const ELSProvider: React.FC<ELSProviderProps> = ({
   config,
   useQueue = true,
@@ -45,10 +61,8 @@ export const ELSProvider: React.FC<ELSProviderProps> = ({
     const onError = (event: ErrorEvent) => {
       const entry = {
         message: event.message || "window.onerror",
-        url: typeof location !== "undefined" ? location.href : "",
         stack: event.error?.stack,
         level: "error" as const,
-        source: "client" as const,
       };
       if (value.queue) value.queue.enqueue(entry);
       else void value.client.sendError(entry);
@@ -58,10 +72,8 @@ export const ELSProvider: React.FC<ELSProviderProps> = ({
       const reason = event.reason;
       const entry = {
         message: String(reason?.message ?? reason ?? "unhandledrejection"),
-        url: typeof location !== "undefined" ? location.href : "",
         stack: reason?.stack,
         level: "error" as const,
-        source: "client" as const,
       };
       if (value.queue) value.queue.enqueue(entry);
       else void value.client.sendError(entry);

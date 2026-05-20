@@ -8,7 +8,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ELSProvider
       config={{
-        endpoint: import.meta.env.VITE_ELS_URL || 'https://api.insoweb.ru/els',
         apiKey: import.meta.env.VITE_ELS_API_KEY || 'els_live_xxxxxxxx',
         appSlug: 'examples',
         deploymentEnv: 'DEV',
