@@ -1,5 +1,5 @@
 import * as React from "react";
-import type { ErrorEntry } from "@inso_web/els-client";
+import type { ErrorEntry, WritableErrorEntry } from "@inso_web/els-client";
 import { useELS } from "./useELS.js";
 
 /**
@@ -14,16 +14,17 @@ export function useErrorReporter() {
   const { client, queue } = useELS();
 
   return React.useCallback(
-    (err: unknown, extra?: Partial<ErrorEntry>) => {
+    (err: unknown, extra?: Partial<WritableErrorEntry>) => {
       const e = err as Error | undefined;
-      const entry: ErrorEntry = {
+      const entry: WritableErrorEntry = {
         message: e?.message ?? String(err),
         stack: e?.stack,
         level: "error",
         ...extra,
       };
-      if (queue) queue.enqueue(entry);
-      else void client.sendError(entry);
+      // Browser-side: source/url are resolved by the client (location.href).
+      if (queue) queue.enqueue(entry as ErrorEntry);
+      else void client.sendError(entry as ErrorEntry);
     },
     [client, queue],
   );
