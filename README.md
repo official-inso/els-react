@@ -68,7 +68,6 @@ import { ELSProvider } from '@inso_web/els-react';
 import { App } from './App';
 
 const client = new ELSClient({
-  endpoint: import.meta.env.VITE_ELS_URL,
   apiKey: import.meta.env.VITE_ELS_API_KEY,
   appSlug: 'my-react-app',
   serviceName: 'web',
@@ -173,7 +172,6 @@ userLog.info('viewed profile');
 
 | Option | Description |
 |---|---|
-| `endpoint` | ELS URL (required) |
 | `apiKey` | API key (required) |
 | `appSlug` | App slug (required) |
 | `serviceName` | Service / module name |
@@ -223,7 +221,6 @@ import { ELSClient } from '@inso_web/els-client';
 import { ELSProvider, ELSErrorBoundary, useELS } from '@inso_web/els-react';
 
 const client = new ELSClient({
-  endpoint: import.meta.env.VITE_ELS_URL,
   apiKey: import.meta.env.VITE_ELS_API_KEY,
   appSlug: 'my-react-app',
   deploymentEnv: import.meta.env.PROD ? 'PRODUCTION' : 'DEV',
@@ -251,7 +248,7 @@ function MyButton() {
 
 | Sentry | ELS | Notes |
 |---|---|---|
-| `Sentry.init({ dsn })` | `new ELSClient({ endpoint, apiKey, appSlug })` | Three explicit fields |
+| `Sentry.init({ dsn })` | `new ELSClient({ apiKey, appSlug })` | Three explicit fields |
 | `<Sentry.ErrorBoundary>` | `<ELSErrorBoundary>` | Same role, same API |
 | `Sentry.captureException(err)` | `log.error(err)` | Via `useELS()` |
 | `Sentry.captureMessage(msg, level)` | `log.<level>(msg)` | |
@@ -291,7 +288,6 @@ import { ELSClient } from '@inso_web/els-client';
 import { ELSProvider, ELSErrorBoundary, useELS } from '@inso_web/els-react';
 
 const client = new ELSClient({
-  endpoint: import.meta.env.VITE_ELS_URL,
   apiKey: import.meta.env.VITE_ELS_API_KEY,
   appSlug: 'my-react-app',
 });
@@ -304,7 +300,7 @@ log.error(new Error('boom'));
 
 | LogRocket | ELS | Notes |
 |---|---|---|
-| `LogRocket.init('app/123')` | `new ELSClient({ endpoint, apiKey, appSlug })` | Three explicit fields |
+| `LogRocket.init('app/123')` | `new ELSClient({ apiKey, appSlug })` | Three explicit fields |
 | `LogRocket.identify(id, meta)` | `log.child({ user: { id, ...meta } })` | Bindings travel with the logger |
 | `LogRocket.captureException(err)` | `log.error(err)` | |
 | `LogRocket.log/info/warn/error` | `log.<level>(...)` | |

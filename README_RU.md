@@ -68,7 +68,6 @@ import { ELSProvider } from '@inso_web/els-react';
 import { App } from './App';
 
 const client = new ELSClient({
-  endpoint: import.meta.env.VITE_ELS_URL,
   apiKey: import.meta.env.VITE_ELS_API_KEY,
   appSlug: 'my-react-app',
   serviceName: 'web',
@@ -173,7 +172,6 @@ userLog.info('viewed profile');
 
 | Опция | Описание |
 |---|---|
-| `endpoint` | URL ELS (обязательно) |
 | `apiKey` | API-ключ (обязательно) |
 | `appSlug` | Slug приложения (обязательно) |
 | `serviceName` | Имя сервиса / модуля |
@@ -223,7 +221,6 @@ import { ELSClient } from '@inso_web/els-client';
 import { ELSProvider, ELSErrorBoundary, useELS } from '@inso_web/els-react';
 
 const client = new ELSClient({
-  endpoint: import.meta.env.VITE_ELS_URL,
   apiKey: import.meta.env.VITE_ELS_API_KEY,
   appSlug: 'my-react-app',
   deploymentEnv: import.meta.env.PROD ? 'PRODUCTION' : 'DEV',
@@ -251,7 +248,7 @@ function MyButton() {
 
 | Sentry | ELS | Заметки |
 |---|---|---|
-| `Sentry.init({ dsn })` | `new ELSClient({ endpoint, apiKey, appSlug })` | Три явных поля |
+| `Sentry.init({ dsn })` | `new ELSClient({ apiKey, appSlug })` | Три явных поля |
 | `<Sentry.ErrorBoundary>` | `<ELSErrorBoundary>` | Та же роль, тот же API |
 | `Sentry.captureException(err)` | `log.error(err)` | Через `useELS()` |
 | `Sentry.captureMessage(msg, level)` | `log.<level>(msg)` | |
@@ -291,7 +288,6 @@ import { ELSClient } from '@inso_web/els-client';
 import { ELSProvider, ELSErrorBoundary, useELS } from '@inso_web/els-react';
 
 const client = new ELSClient({
-  endpoint: import.meta.env.VITE_ELS_URL,
   apiKey: import.meta.env.VITE_ELS_API_KEY,
   appSlug: 'my-react-app',
 });
@@ -303,7 +299,7 @@ log.error(new Error('boom'));
 
 | LogRocket | ELS | Заметки |
 |---|---|---|
-| `LogRocket.init('app/123')` | `new ELSClient({ endpoint, apiKey, appSlug })` | Три явных поля |
+| `LogRocket.init('app/123')` | `new ELSClient({ apiKey, appSlug })` | Три явных поля |
 | `LogRocket.identify(id, meta)` | `log.child({ user: { id, ...meta } })` | Bindings путешествуют с логгером |
 | `LogRocket.captureException(err)` | `log.error(err)` | |
 | `LogRocket.log/info/warn/error` | `log.<level>(...)` | |
